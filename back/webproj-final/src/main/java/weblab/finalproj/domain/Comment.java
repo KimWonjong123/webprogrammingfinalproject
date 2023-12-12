@@ -2,43 +2,51 @@ package weblab.finalproj.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "comment")
 @Getter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    @ToString.Exclude
+    private User writer;
 
-    @Column(unique = true)
+    @Column(columnDefinition = "TEXT")
     @NotNull
-    private String email;
+    private String content;
 
     @CreatedDate
     @NotNull
     private LocalDateTime createdAt;
 
-    @Column
-    @NotNull
-    private String password;
+    @OneToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public Comment(User writer, String content, Post post) {
+        this.writer = writer;
+        this.content = content;
+        this.post = post;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void edit(String content) {
+        this.content = content;
     }
 }

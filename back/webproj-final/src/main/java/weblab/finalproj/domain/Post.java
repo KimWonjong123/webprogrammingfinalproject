@@ -2,30 +2,30 @@ package weblab.finalproj.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "post")
 @Getter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
-    private String name;
-
-    @Column(unique = true)
-    @NotNull
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    @ToString.Exclude
+    private User writer;
 
     @CreatedDate
     @NotNull
@@ -33,12 +33,16 @@ public class User {
 
     @Column
     @NotNull
-    private String password;
+    private String title;
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    @Column(columnDefinition = "TEXT")
+    @NotNull
+    private String content;
+
+    public Post(User writer, String title, String content) {
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
         this.createdAt = LocalDateTime.now();
     }
 }
