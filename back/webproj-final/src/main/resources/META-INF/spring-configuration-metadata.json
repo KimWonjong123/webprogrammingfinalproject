@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "email.validity-in-milliseconds",
+      "type": "java.lang.Integer"
+    }
+  ]
+}
