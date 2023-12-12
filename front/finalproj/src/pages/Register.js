@@ -1,5 +1,4 @@
 import { React, useState } from "react";
-import { setCookie } from "../util/cookie";
 import axios from "axios";
 
 function Register() {
@@ -27,6 +26,10 @@ function Register() {
 
     const handleEmailCheck = (e) => {
         e.preventDefault();
+        const emailInput = document.querySelector(
+            'input[type="email"]'
+        );
+        emailInput.disabled = true;
         axios
             .post("http://localhost:8080/api/email/verify", {
                 email: email,
@@ -34,12 +37,9 @@ function Register() {
             .then((res) => {
                 setEmailCheck(res.data.success);
                 console.log(res.data.success);
-                const emailInput = document.querySelector(
-                    'input[type="email"]'
-                );
-                emailInput.disabled = true;
             })
             .catch((err) => {
+                emailInput.disabled = false;
                 console.log(err.response.data.message);
             });
     };
@@ -64,7 +64,6 @@ function Register() {
                 code: emailCode,
             })
             .then((res) => {
-                setCookie("token", res.data.token, { path: "/" });
                 window.location.href = "/";
             })
             .catch((err) => {
