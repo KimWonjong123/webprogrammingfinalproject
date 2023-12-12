@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Register from "./pages/Register";
+import Mypage from "./pages/Mypage";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/logout" element={<Logout />} />
+                <Route path="/mypage" element={<Mypage />} />
             </Routes>
         </div>
     );

@@ -11,7 +11,10 @@ function Nav() {
             <nav>
                 <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
                 {token ? (
-                    <Link to="/logout">Logout</Link>
+                    <>
+                        <Link to="/logout">Logout</Link> |{" "}
+                        <Link to="/mypage">My Page</Link>
+                    </>
                 ) : (
                     <>
                         <Link to="/register">Register</Link> |{" "}
