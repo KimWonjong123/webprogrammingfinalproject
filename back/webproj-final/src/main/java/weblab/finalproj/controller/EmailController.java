@@ -10,7 +10,7 @@ import weblab.finalproj.service.EmailService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("email")
+@RequestMapping("api/email")
 public class EmailController {
 
         private final EmailService emailService;
