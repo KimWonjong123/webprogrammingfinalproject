@@ -2,6 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { setCookie } from "../util/cookie";
 import axois from "axios";
+import {
+    Form,
+    Button,
+    Container,
+    FloatingLabel,
+} from "react-bootstrap";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -24,29 +30,39 @@ function Login() {
     }
 
     return (
-        <div className="Login">
-            <header>
-                <h1>login Page</h1>
-                <h2>hello this is login page.</h2>
-                <input
-                    type="email"
-                    placeholder="Enter your email"
-                    required={true}
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                    }}
-                />
-                <input
-                    type="password"
-                    placeholder="Enter your password."
-                    required={true}
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                />
-                <button onClick={handleLogin}>login</button>
-            </header>
-        </div>
+        <Container>
+            <div className="Login">
+                <Form>
+                    <Form.Group className="mb-1" controlId="formEmail">
+                        <FloatingLabel label="Email" className="mb-3">
+                            <Form.Control
+                                type="email"
+                                placeholder="Enter your email."
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                required={true}
+                            />
+                        </FloatingLabel>
+                    </Form.Group>
+                    <Form.Group className="mb-1" controlId="formPassword">
+                        <FloatingLabel label="Password" className="mb-3">
+                            <Form.Control
+                                type="password"
+                                placeholder="Enter your password."
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                required={true}
+                            />
+                        </FloatingLabel>
+                    </Form.Group>
+                    <Button onClick={handleLogin}>
+                        Login
+                    </Button>
+                </Form>
+            </div>
+        </Container>
     );
 }
 

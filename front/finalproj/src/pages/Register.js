@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import {
     Form,
@@ -37,7 +37,6 @@ function Register() {
 
     const handleEmailCheck = (e) => {
         e.preventDefault();
-        e.target.disabled = true;
         setEmailSending(true);
         const emailInput = document.querySelector('input[type="email"]');
         emailInput.disabled = true;
@@ -52,7 +51,6 @@ function Register() {
             .catch((err) => {
                 emailInput.disabled = false;
                 console.log(err.response.data.message);
-                e.target.disabled = false;
             })
             .finally(() => {
                 setEmailSending(false);
