@@ -33,11 +33,11 @@ public class PostRepository {
     }
 
     public List<Post> findAll(Long userId) {
-        return em.createQuery("select m from Post m where m.author.id = :userId", Post.class)
+        return em.createQuery("select m from Post m where m.author.id = :userId order by m.createdAt desc", Post.class)
                 .setParameter("userId", userId).getResultList();
     }
 
     public List<Post> findAll() {
-        return em.createQuery("select m from Post m", Post.class).getResultList();
+        return em.createQuery("select m from Post m order by m.createdAt desc", Post.class).getResultList();
     }
 }

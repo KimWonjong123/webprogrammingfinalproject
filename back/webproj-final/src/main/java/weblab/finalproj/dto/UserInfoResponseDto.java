@@ -15,4 +15,6 @@ public class UserInfoResponseDto {
     private String name;
 
     private String email;
+
+    private String createdAt;
 }

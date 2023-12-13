@@ -23,7 +23,7 @@ public class PostResponseDto {
 
         private String authorName;
 
-        private LocalDateTime createdAt;
+        private String createdAt;
 
         private List<Comment> comments;
 }

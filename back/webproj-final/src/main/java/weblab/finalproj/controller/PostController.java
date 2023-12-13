@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/posts")
+@RequestMapping("api/post")
 public class PostController {
 
     private final PostService postService;
@@ -29,7 +29,7 @@ public class PostController {
         return responseDto;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public List<PostListResponseDto> getAllPosts() {
         List<PostListResponseDto> responseDto;
@@ -37,7 +37,7 @@ public class PostController {
         return responseDto;
     }
 
-    @GetMapping("/all/{userId}")
+    @GetMapping("/user/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public List<PostListResponseDto> getAllPostsFromUser(@PathVariable("userId") Long userId) {
         List<PostListResponseDto> responseDto;

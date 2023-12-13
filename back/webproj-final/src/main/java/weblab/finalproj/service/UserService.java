@@ -11,6 +11,7 @@ import weblab.finalproj.dto.UserInfoResponseDto;
 import weblab.finalproj.repository.EmailVerificationRepository;
 import weblab.finalproj.repository.UserRepository;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,10 @@ public class UserService {
     }
 
     public UserInfoResponseDto getUserInfo(User user) {
-        return new UserInfoResponseDto(user.getId(), user.getName(), user.getEmail());
+        return new UserInfoResponseDto(user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
     public Optional<User> findById(Long id) {

@@ -30,9 +30,9 @@ public class AuthConfig {
                 )
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
-                                .requestMatchers("/api/users/register").permitAll()
+                                .requestMatchers("/api/user/register").permitAll()
                                 .requestMatchers("/api/email/verify").permitAll()
-                                .requestMatchers("/api/users/login").permitAll()
+                                .requestMatchers("/api/user/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/post/**").permitAll()
                                 .anyRequest().authenticated()
                 )

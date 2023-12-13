@@ -20,5 +20,5 @@ public class PostListResponseDto {
 
         private String authorName;
 
-        private LocalDateTime createdAt;
+        private String createdAt;
 }
