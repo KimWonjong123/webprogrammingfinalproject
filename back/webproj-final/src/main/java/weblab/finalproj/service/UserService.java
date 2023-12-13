@@ -47,6 +47,10 @@ public class UserService {
         return userRepository.getByEmail(email);
     }
 
+    public Optional<User> findByName(String name) {
+        return userRepository.getByName(name);
+    }
+
     private void validateDuplicateUser(String email) {
         userRepository.getByEmail(email)
                 .ifPresent(m -> {

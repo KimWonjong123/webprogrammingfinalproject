@@ -9,17 +9,20 @@ function Mypage() {
 
     useEffect(() => {
         const token = getCookie("token");
+        if (!token) {
+            window.location.href = "/";
+            return;
+        }
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         };
         axios
-            .get("http://localhost:8080/api/users/me", config)
+            .get("http://localhost:8080/api/user/me", config)
             .then((res) => {
                 setName(res.data.name);
                 setEmail(res.data.email);
-                console.log(res.data);
             })
             .catch((err) => {
                 console.log(err.response.data.message);

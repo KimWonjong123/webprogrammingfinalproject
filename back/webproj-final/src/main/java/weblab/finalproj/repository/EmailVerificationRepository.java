@@ -2,6 +2,7 @@ package weblab.finalproj.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import weblab.finalproj.domain.EmailVerification;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class EmailVerificationRepository{
 
     private final EntityManager em;

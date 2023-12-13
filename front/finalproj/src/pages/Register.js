@@ -1,4 +1,5 @@
-import { React, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function Register() {
@@ -57,7 +58,7 @@ function Register() {
             return;
         }
         axios
-            .post("http://localhost:8080/api/users/register", {
+            .post("http://localhost:8080/api/user/register", {
                 name: name,
                 email: email,
                 rawPassword: password,

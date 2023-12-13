@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import Nav from "./pages/Nav";
+import TopNav from "./pages/Nav";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -12,7 +12,7 @@ import Mypage from "./pages/Mypage";
 function App() {
     return (
         <div className="App">
-            <Nav />
+            <TopNav />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />

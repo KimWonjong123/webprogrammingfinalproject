@@ -1,5 +1,6 @@
-import { React, useState } from "react";
-import { setCookie, getCookie } from "../util/cookie";
+import React from "react";
+import { useState } from "react";
+import { setCookie } from "../util/cookie";
 import axois from "axios";
 
 function Login() {
@@ -9,7 +10,7 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         axois
-            .post("http://localhost:8080/api/users/login", {
+            .post("http://localhost:8080/api/user/login", {
                 email: email,
                 password: password,
             })

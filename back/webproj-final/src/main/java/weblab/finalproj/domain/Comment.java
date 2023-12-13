@@ -23,9 +23,9 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "writer_id")
+    @JoinColumn(name = "author_id")
     @ToString.Exclude
-    private User writer;
+    private User author;
 
     @Column(columnDefinition = "TEXT")
     @NotNull
@@ -39,8 +39,8 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public Comment(User writer, String content, Post post) {
-        this.writer = writer;
+    public Comment(User author, String content, Post post) {
+        this.author = author;
         this.content = content;
         this.post = post;
         this.createdAt = LocalDateTime.now();

@@ -23,9 +23,9 @@ public class Post {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "writer_id")
+    @JoinColumn(name = "author_id")
     @ToString.Exclude
-    private User writer;
+    private User author;
 
     @CreatedDate
     @NotNull
@@ -39,10 +39,15 @@ public class Post {
     @NotNull
     private String content;
 
-    public Post(User writer, String title, String content) {
-        this.writer = writer;
+    public Post(User author, String title, String content) {
+        this.author = author;
         this.title = title;
         this.content = content;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void edit(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }
