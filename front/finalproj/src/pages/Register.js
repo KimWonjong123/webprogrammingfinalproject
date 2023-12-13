@@ -1,6 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import {
+    Form,
+    Button,
+    Container,
+    FloatingLabel,
+    Row,
+    Col,
+    Spinner
+} from "react-bootstrap";
 
 function Register() {
     const [name, setName] = useState("");
@@ -8,10 +17,11 @@ function Register() {
     const [password, setPassword] = useState("");
     const [emailCheck, setEmailCheck] = useState(false);
     const [emailCode, setEmailCode] = useState("");
+    const [emailSending, setEmailSending] = useState(false);
 
     const handleNameChange = (e) => {
         setName(e.target.value);
-    }
+    };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -27,9 +37,9 @@ function Register() {
 
     const handleEmailCheck = (e) => {
         e.preventDefault();
-        const emailInput = document.querySelector(
-            'input[type="email"]'
-        );
+        e.target.disabled = true;
+        setEmailSending(true);
+        const emailInput = document.querySelector('input[type="email"]');
         emailInput.disabled = true;
         axios
             .post("http://localhost:8080/api/email/verify", {
@@ -42,7 +52,11 @@ function Register() {
             .catch((err) => {
                 emailInput.disabled = false;
                 console.log(err.response.data.message);
-            });
+                e.target.disabled = false;
+            })
+            .finally(() => {
+                setEmailSending(false);
+            })
     };
 
     const handleRegister = (e) => {
@@ -72,39 +86,94 @@ function Register() {
             });
     };
 
+    const btnWithSpinner = (
+        <Button variant="primary" disabled>
+            <Spinner as="span" size="sm" animation="border" role="status" />
+            Sending...
+        </Button>
+    );
+
+    const btnWithoutSpinner = (
+        <Button
+            variant="primary"
+            onClick={handleEmailCheck}
+        >
+            Send Code
+        </Button>
+    );
+
     return (
-        <div className="Register">
-            <header>
-                <h1>Register Page</h1>
-                <h2>hello</h2>
-                <input
-                    type="text"
-                    onChange={handleNameChange}
-                    placeholder="Enter your name."
-                    required={true}
-                />
-                <input
-                    type="email"
-                    onChange={handleEmailChange}
-                    placeholder="Enter your Email."
-                    required={true}
-                />
-                <button onClick={handleEmailCheck}>Check Email</button>
-                <input
-                    type="text"
-                    onChange={handleEmailCodeChange}
-                    placeholder="Enter your Email verification code"
-                    required={true}
-                />
-                <input
-                    type="password"
-                    onChange={handlePasswordChange}
-                    placeholder="Enter your password."
-                    required={true}
-                />
-                <button onClick={handleRegister}>Register</button>
-            </header>
-        </div>
+        <Container>
+            <div className="Register">
+                <Form>
+                    <Row className="mb-1">
+                        <Form.Group as={Col} controlId="formName">
+                            <FloatingLabel label="Name" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter your name."
+                                    onChange={handleNameChange}
+                                    required={true}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formEmail">
+                            <FloatingLabel label="Email" className="mb-3">
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Enter your Email."
+                                    onChange={handleEmailChange}
+                                    required={true}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-1">
+                        <Form.Group controlId="formEmailCheck" className="mb-3">
+                            <Form.Text className="text-muted">
+                                Press the button to send the verification code
+                                to your email.
+                            </Form.Text>
+                            <br />
+                            {
+                                emailSending === true
+                                    ? btnWithSpinner
+                                    : btnWithoutSpinner
+                            }
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-1">
+                        <Form.Group as={Col} controlId="formEmailCode">
+                            <FloatingLabel
+                                label="Email Verification Code"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter your Email verification code"
+                                    onChange={handleEmailCodeChange}
+                                    required={true}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formPassword">
+                            <FloatingLabel label="Password" className="mb-3">
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Enter your password."
+                                    onChange={handlePasswordChange}
+                                    required={true}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Row>
+                    <Button variant="primary" onClick={handleRegister}>
+                        Register
+                    </Button>
+                </Form>
+            </div>
+        </Container>
     );
 }
 

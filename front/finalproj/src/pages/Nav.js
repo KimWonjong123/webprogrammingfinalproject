@@ -1,6 +1,5 @@
 import React from "react";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Nav, Navbar } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import "../styles/Nav.css";
 
@@ -9,7 +8,7 @@ function TopNav() {
     const token = cookies.token;
 
     return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="dark" variant="dark" fixed="top">
             <Navbar.Brand href="/">Final Project</Navbar.Brand>
             <Nav
                 fill
@@ -38,7 +37,7 @@ function TopNav() {
                             <Nav.Link href="/register">Register</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/login">Log out</Nav.Link>
+                            <Nav.Link href="/login">Log in</Nav.Link>
                         </Nav.Item>
                     </>
                 )}
