@@ -6,6 +6,12 @@ import { Container, Tabs, Tab, Row, Col, Stack } from "react-bootstrap";
 import Postinfo from "./PostInfo";
 import CommentInfo from "./CommentInfo";
 
+/*
+    Component for mypage
+    If the user is not logged in, redirect to login page
+    Show user's profile, posts, and comments
+    User can click the post or comment to see the post or comment
+*/
 function Mypage() {
     const [profile, setProfile] = useState({});
     const [posts, setPosts] = useState([]);

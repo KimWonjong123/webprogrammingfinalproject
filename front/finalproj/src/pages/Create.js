@@ -5,6 +5,13 @@ import { Form, Container, Modal, Badge } from "react-bootstrap";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
+
+/*
+    Component for creating a post
+    If the user is not logged in, redirect to login page
+    If user press submit button without title or content, shows modal
+    After creating a post, redirect to home page
+*/
 function Create() {
     const token = getCookie("token");
     const [title, setTitle] = useState("");

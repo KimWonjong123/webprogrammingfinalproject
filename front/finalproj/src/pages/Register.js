@@ -14,6 +14,14 @@ import {
 } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
+/*
+    Component for register
+    Validation is applied for all fields using react-hook-form library
+    User should validate his/her email by code sent to his/her email
+    Password is encrypted in database
+    After register, redirect to home page
+    If registeration is failed, show modal
+*/
 function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");

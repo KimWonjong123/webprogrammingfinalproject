@@ -6,6 +6,12 @@ import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
+/*
+    Component for editing a post
+    If the user is not logged in, redirect to login page
+    If user press submit button without title or content, shows modal
+    After editing a post, redirect to post page
+*/
 function Edit() {
     const token = getCookie("token");
     const [title, setTitle] = useState("");

@@ -9,6 +9,16 @@ import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+/*
+    Component for showing a post
+    Show the post and comments
+    If the user is logged in, show edit and delete button
+    User can edit or delete the post
+    User can also leave a comment
+    When user click the delete button on post title, shows modal
+    When user click the delete button on comment, delete the comment immediately
+    Deletion and editing are only available for the author of the post or comment
+*/
 function Post() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);

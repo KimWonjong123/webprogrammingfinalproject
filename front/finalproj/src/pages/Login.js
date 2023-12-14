@@ -14,6 +14,16 @@ import {
 } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
+/*
+    Component for login
+    Validation is applied for email using react-hook-form library
+    User should validate his/her email by code sent to his/her email
+    Password is encrypted in database
+    After login, server sends a token to client
+    Client saves the token in cookie
+    If login is successful, redirect to home page
+    If login is failed, show modal
+*/
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

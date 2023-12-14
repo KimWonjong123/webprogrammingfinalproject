@@ -3,6 +3,10 @@ import { useEffect } from "react";
 import { removeCookie } from "../util/cookie";
 
 
+/*
+    Simple component for logging out
+    Remove token cookie and redirect to home page
+*/
 function Logout() {
     useEffect(() => {
         handleLogout();

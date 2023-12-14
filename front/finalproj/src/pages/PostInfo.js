@@ -3,6 +3,10 @@ import { Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../styles/Postinfo.css";
 
+/*
+    Component for displaying a single post card in My Page and Home
+    Used in MyPage.js and Home.js
+*/
 function Postinfo(props) {
     const [post, setPost] = useState({});
 

@@ -8,6 +8,14 @@ import { Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import "../styles/Home.css"
 
+/*
+    Component for home page
+    If the user is logged in, show user's name
+    If the user is not logged in, show "Stranger"
+    Show all posts that are created by users
+    User can create a post by clicking the edit button
+    Or user can click the post to see the post
+*/
 function Home() {
     const [name, setName] = useState("");
     const [posts, setPosts] = useState([]);

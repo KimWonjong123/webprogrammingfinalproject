@@ -3,6 +3,11 @@ import { Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../styles/Postinfo.css";
 
+
+/*
+    Component for displaying a single comment card in My Page
+    Used in MyPage.js
+*/
 function CommentInfo(props) {
     const [comment, setComment] = useState({});
 
