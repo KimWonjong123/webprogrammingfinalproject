@@ -40,4 +40,10 @@ public class CommentController {
         return commentService.getAllCommentOfUser(userId);
     }
 
+    @DeleteMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean deleteComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal User user) {
+        return commentService.deleteComment(commentId, user);
+    }
+
 }

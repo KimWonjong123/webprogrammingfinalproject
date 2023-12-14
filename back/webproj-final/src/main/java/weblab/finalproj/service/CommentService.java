@@ -49,7 +49,7 @@ public class CommentService {
         Comment comment = commentRepository.getById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-        if (!comment.getAuthor().equals(user)) {
+        if (!comment.getAuthor().getId().equals(user.getId())) {
             throw new IllegalArgumentException("해당 댓글의 작성자가 아닙니다.");
         }
         commentRepository.delete(comment);
