@@ -3,6 +3,7 @@
 #### Frontend
 On frontend root directory
 ```
+npm install
 npm start
 ```
 
