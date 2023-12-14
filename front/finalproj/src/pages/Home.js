@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import { getCookie } from "../util/cookie";
-import Postinfo from "./PostInfo";
+import Postinfo from "../components/PostInfo";
 import { Container, Stack } from "react-bootstrap";
 import { Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";

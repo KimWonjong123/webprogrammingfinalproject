@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { getCookie } from "../util/cookie";
 import axios from "axios";
 import { Container, Tabs, Tab, Row, Col, Stack } from "react-bootstrap";
-import Postinfo from "./PostInfo";
-import CommentInfo from "./CommentInfo";
+import Postinfo from "../components/PostInfo";
+import CommentInfo from "../components/CommentInfo";
 
 /*
     Component for mypage

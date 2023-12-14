@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import TopNav from "./pages/Nav";
+import TopNav from "./components/Nav";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
