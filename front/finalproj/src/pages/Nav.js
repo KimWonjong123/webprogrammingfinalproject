@@ -1,11 +1,10 @@
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
-import { useCookies } from "react-cookie";
+import { getCookie } from "../util/cookie";
 import "../styles/Nav.css";
 
 function TopNav() {
-    const [cookies] = useCookies(["token"]);
-    const token = cookies.token;
+    const token = getCookie("token");
 
     return (
         <Navbar bg="dark" variant="dark" fixed="top">
@@ -18,9 +17,6 @@ function TopNav() {
             >
                 <Nav.Item>
                     <Nav.Link href="/">Home</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/about">About</Nav.Link>
                 </Nav.Item>
                 {token ? (
                     <>

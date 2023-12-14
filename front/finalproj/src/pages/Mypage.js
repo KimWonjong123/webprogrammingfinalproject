@@ -2,10 +2,23 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getCookie } from "../util/cookie";
 import axios from "axios";
+import { Container, Tabs, Tab, Row, Col, Stack } from "react-bootstrap";
+import Postinfo from "./PostInfo";
+import CommentInfo from "./CommentInfo";
 
 function Mypage() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [profile, setProfile] = useState({});
+    const [posts, setPosts] = useState([]);
+    const [comments, setComments] = useState([]);
+
+    const parseToken = (token) => {
+        const payload = token.split(".")[1];
+        const decodedPayload = atob(payload);
+        const payloadObj = JSON.parse(decodedPayload);
+        return payloadObj.id;
+    }
+
+    const id = parseToken(getCookie("token"));
 
     useEffect(() => {
         const token = getCookie("token");
@@ -21,35 +34,73 @@ function Mypage() {
         axios
             .get("http://localhost:8080/api/user/me", config)
             .then((res) => {
-                setName(res.data.name);
-                setEmail(res.data.email);
+                setProfile(res.data);
             })
             .catch((err) => {
                 console.log(err.response.data.message);
             });
-    }, [])
+        axios
+            .get(`http://localhost:8080/api/post/user/${id}`, config)
+            .then((res) => {
+                setPosts(res.data);
+            })
+            .catch((err) => {
+                console.log(err.response.data.message);
+            });
+        axios
+            .get(`http://localhost:8080/api/comment/user/${id}`, config)
+            .then((res) => {
+                setComments(res.data);
+            })
+            .catch((err) => {
+                console.log(err.response.data.message);
+            });
+    }, [id]);
 
     return (
-        <div className="My">
-            <header>
-                <h1>My Page</h1>
-                <h2>hello this is my page.</h2>
-            </header>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{ name }</td>
-                        <td>{ email }</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <Container>
+            <div className="My">
+                <Tabs defaultActiveKey="profile" className="mb-3" fill>
+                    <Tab eventKey="profile" title="Profile">
+                        <header>
+                            <h1>My Profile</h1>
+                            <Row>
+                                <Col>Name</Col>
+                                <Col>{profile.name}</Col>
+                            </Row>
+                            <Row>
+                                <Col>Email</Col>
+                                <Col>{profile.email}</Col>
+                            </Row>
+                            <Row>
+                                <Col>Joined Date</Col>
+                                <Col>{profile.createdAt}</Col>
+                            </Row>
+                        </header>
+                    </Tab>
+                    <Tab eventKey="post" title="My Posts">
+                        <header>
+                            <h1>My Posts</h1>
+                        </header>
+                        <Stack gap={4}>
+                            {posts.map((post) => (
+                                <Postinfo post={post} />
+                            ))}
+                        </Stack>
+                    </Tab>
+                    <Tab eventKey="comment" title="My Comments">
+                        <header>
+                            <h1>My Comments</h1>
+                        </header>
+                        <Stack gap={4}>
+                            {comments.map((comment) => (
+                                <CommentInfo comment={comment} />
+                            ))}
+                        </Stack>
+                    </Tab>
+                </Tabs>
+            </div>
+        </Container>
     );
 }
 

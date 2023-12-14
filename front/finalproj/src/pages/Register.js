@@ -6,10 +6,13 @@ import {
     Button,
     Container,
     FloatingLabel,
-    Row,
-    Col,
-    Spinner
+    Spinner,
+    Modal,
+    OverlayTrigger,
+    Tooltip,
+    Badge,
 } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 function Register() {
     const [name, setName] = useState("");
@@ -18,6 +21,15 @@ function Register() {
     const [emailCheck, setEmailCheck] = useState(false);
     const [emailCode, setEmailCode] = useState("");
     const [emailSending, setEmailSending] = useState(false);
+    const [sendingCodeSuccess, setSendingCodeSuccess] = useState(true);
+    const [registerSuccess, setRegisterSuccess] = useState(true);
+    const [modalShow, setModalShow] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange"});
+    const errorToolTip = (message) => (
+        <Tooltip>
+            {message}
+        </Tooltip>
+    );
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -35,8 +47,13 @@ function Register() {
         setEmailCode(e.target.value);
     };
 
+    const handleClose = () => setModalShow(false);
+
     const handleEmailCheck = (e) => {
         e.preventDefault();
+        if (errors.email !== undefined || email === "") {
+            return;
+        }
         setEmailSending(true);
         const emailInput = document.querySelector('input[type="email"]');
         emailInput.disabled = true;
@@ -46,27 +63,28 @@ function Register() {
             })
             .then((res) => {
                 setEmailCheck(res.data.success);
-                console.log(res.data.success);
+                setModalShow(true);
             })
             .catch((err) => {
                 emailInput.disabled = false;
                 console.log(err.response.data.message);
+                setSendingCodeSuccess(false);
             })
             .finally(() => {
                 setEmailSending(false);
             })
     };
 
-    const handleRegister = (e) => {
-        e.preventDefault();
+    const handleError = (e) => {
+        console.log(e);
+    };
+
+    const handleRegister = (data) => {
+        console.log(data)
         if (emailCheck !== true || emailCode === "") {
-            console.log("Please check your email.");
-            console.log(emailCheck);
-            console.log(emailCode);
             return;
         }
         if (password === "" || name === "") {
-            console.log("Please check your password or name.");
             return;
         }
         axios
@@ -81,6 +99,7 @@ function Register() {
             })
             .catch((err) => {
                 console.log(err.response.data.message);
+                setRegisterSuccess(false);
             });
     };
 
@@ -92,10 +111,7 @@ function Register() {
     );
 
     const btnWithoutSpinner = (
-        <Button
-            variant="primary"
-            onClick={handleEmailCheck}
-        >
+        <Button variant="primary" onClick={handleEmailCheck}>
             Send Code
         </Button>
     );
@@ -104,72 +120,165 @@ function Register() {
         <Container>
             <div className="Register">
                 <Form>
-                    <Row className="mb-1">
-                        <Form.Group as={Col} controlId="formName">
-                            <FloatingLabel label="Name" className="mb-3">
+                    <Form.Group controlId="formName">
+                        <FloatingLabel label="Name" className="mb-3">
+                            <OverlayTrigger
+                                placement="bottom"
+                                show={errors.name ? true : false}
+                                overlay={errorToolTip(errors.name?.message)}
+                            >
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter your name."
-                                    onChange={handleNameChange}
-                                    required={true}
+                                    {...register("name", {
+                                        required: {
+                                            value: true,
+                                            message: "Name is required.",
+                                        },
+                                        onChange: handleNameChange,
+                                    })}
+                                    aria-invalid={
+                                        errors.name ? "true" : "false"
+                                    }
                                 />
-                            </FloatingLabel>
-                        </Form.Group>
+                            </OverlayTrigger>
+                        </FloatingLabel>
+                    </Form.Group>
 
-                        <Form.Group as={Col} controlId="formEmail">
-                            <FloatingLabel label="Email" className="mb-3">
+                    <Form.Group controlId="formEmail">
+                        <FloatingLabel label="Email" className="mb-3">
+                            <OverlayTrigger
+                                placement="bottom"
+                                show={errors.email ? true : false}
+                                overlay={errorToolTip(errors.email?.message)}
+                            >
                                 <Form.Control
                                     type="email"
                                     placeholder="Enter your Email."
-                                    onChange={handleEmailChange}
-                                    required={true}
+                                    {...register("email", {
+                                        required: {
+                                            value: true,
+                                            message: "Email is required.",
+                                        },
+                                        pattern: {
+                                            value: /^\S+@\S+\.\S+$/i,
+                                            message: "Email is invalid.",
+                                        },
+                                        onChange: handleEmailChange,
+                                    })}
                                 />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Row>
-                    <Row className="mb-1">
-                        <Form.Group controlId="formEmailCheck" className="mb-3">
-                            <Form.Text className="text-muted">
-                                Press the button to send the verification code
-                                to your email.
-                            </Form.Text>
-                            <br />
-                            {
-                                emailSending === true
-                                    ? btnWithSpinner
-                                    : btnWithoutSpinner
-                            }
-                        </Form.Group>
-                    </Row>
-                    <Row className="mb-1">
-                        <Form.Group as={Col} controlId="formEmailCode">
-                            <FloatingLabel
-                                label="Email Verification Code"
-                                className="mb-3"
+                            </OverlayTrigger>
+                        </FloatingLabel>
+                    </Form.Group>
+                    <Form.Group controlId="formEmailCheck" className="mb-3">
+                        <Form.Text className="text-muted">
+                            Press the button to send the verification code to
+                            your email.
+                        </Form.Text>
+                        <br />
+                        {emailSending === true
+                            ? btnWithSpinner
+                            : btnWithoutSpinner}
+                        {sendingCodeSuccess === false ? (
+                            <Badge bg="danger">Sending Failed. Please try again.</Badge>
+                        ) : null}
+                    </Form.Group>
+                    <Form.Group controlId="formEmailCode">
+                        <FloatingLabel
+                            label="Email Verification Code"
+                            className="mb-3"
+                        >
+                            <OverlayTrigger
+                                placement="bottom"
+                                show={errors.code ? true : false}
+                                overlay={errorToolTip(errors.code?.message)}
                             >
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter your Email verification code"
-                                    onChange={handleEmailCodeChange}
-                                    required={true}
+                                    {...register("code", {
+                                        required: {
+                                            value: true,
+                                            message: "Code is required.",
+                                        },
+                                        maxLength: {
+                                            value: 6,
+                                            message: "Code is invalid.",
+                                        },
+                                        minLength: {
+                                            value: 6,
+                                            message: "Code is invalid.",
+                                        },
+                                        onChange: handleEmailCodeChange,
+                                    })}
+                                    aria-invalid={
+                                        errors.code ? "true" : "false"
+                                    }
                                 />
-                            </FloatingLabel>
-                        </Form.Group>
-                        <Form.Group as={Col} controlId="formPassword">
-                            <FloatingLabel label="Password" className="mb-3">
+                            </OverlayTrigger>
+                        </FloatingLabel>
+                    </Form.Group>
+                    <Form.Group controlId="formPassword">
+                        <FloatingLabel label="Password" className="mb-3">
+                            <OverlayTrigger
+                                placement="bottom"
+                                show={errors.rawPassword ? true : false}
+                                overlay={errorToolTip(
+                                    errors.rawPassword?.message
+                                )}
+                            >
                                 <Form.Control
                                     type="password"
                                     placeholder="Enter your password."
-                                    onChange={handlePasswordChange}
-                                    required={true}
+                                    {...register("rawPassword", {
+                                        required: {
+                                            value: true,
+                                            message: "Password is required.",
+                                        },
+                                        minLength: {
+                                            value: 8,
+                                            message:
+                                                "Password Should be minimum 8 characters.",
+                                        },
+                                        pattern: {
+                                            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/,
+                                            message:
+                                                "Password should contain at least one uppercase, one lowercase, one number and one special character.",
+                                        },
+                                        onChange: handlePasswordChange,
+                                    })}
+                                    aria-invalid={
+                                        errors.rawPassword ? "true" : "false"
+                                    }
                                 />
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Row>
-                    <Button variant="primary" onClick={handleRegister}>
+                            </OverlayTrigger>
+                        </FloatingLabel>
+                    </Form.Group>
+                    <Button
+                        variant="primary"
+                        onClick={handleSubmit(handleRegister, handleError)}
+                    >
                         Register
                     </Button>
+                    {registerSuccess === false ? (
+                        <Badge bg="danger">Register Failed. Please try again.</Badge>
+                    ) : null}
                 </Form>
+                <Modal show={modalShow} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            Verification Code Has Been Sent!
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Please check you email inbox and enter the code.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </Container>
     );
