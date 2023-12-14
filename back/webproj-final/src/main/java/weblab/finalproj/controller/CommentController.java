@@ -19,12 +19,11 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/{postId}")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentResponseDto createComment(@PathVariable("postId") Long postId,
-                                            @RequestBody CreateCommentRequestDto createCommentRequestDto,
+    public CommentResponseDto createComment(@RequestBody CreateCommentRequestDto createCommentRequestDto,
                                             @AuthenticationPrincipal User user) {
-        return commentService.createComment(postId, createCommentRequestDto, user);
+        return commentService.createComment(createCommentRequestDto, user);
     }
 
     @PatchMapping("/{commentId}")

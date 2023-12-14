@@ -35,7 +35,7 @@ public class Comment {
     @NotNull
     private LocalDateTime createdAt;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 

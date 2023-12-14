@@ -24,8 +24,8 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public CommentResponseDto createComment(Long postId, CreateCommentRequestDto createCommentDto, User user) {
-        Post post = postRepository.getById(postId).orElseThrow(
+    public CommentResponseDto createComment(CreateCommentRequestDto createCommentDto, User user) {
+        Post post = postRepository.getById(createCommentDto.getPostId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")
         );
         Comment comment = new Comment(user, createCommentDto.getContent(), post);
@@ -61,13 +61,6 @@ public class CommentService {
     }
 
     private CommentResponseDto toCommentResponseDto(Comment comment) {
-        return new CommentResponseDto(
-                comment.getId(),
-                comment.getAuthor().getId(),
-                comment.getContent(),
-                comment.getPost().getId(),
-                comment.getAuthor().getName(),
-                comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        );
+        return new CommentResponseDto(comment);
     }
 }

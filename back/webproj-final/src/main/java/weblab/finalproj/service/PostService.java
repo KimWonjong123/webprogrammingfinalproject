@@ -47,7 +47,7 @@ public class PostService {
                 () -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")
         );
         commentRepository.findByPostId(postId).forEach(commentRepository::delete);
-        if (!post.getAuthor().equals(user)) {
+        if (!post.getAuthor().getId().equals(user.getId())) {
             throw new IllegalArgumentException("해당 게시글의 작성자가 아닙니다.");
         }
         postRepository.delete(post);
@@ -70,22 +70,10 @@ public class PostService {
     }
 
     private PostResponseDto toPostResponseDto(Post post, List<Comment> comments) {
-        return new PostResponseDto(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getAuthor().getId(),
-                post.getAuthor().getName(),
-                post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-                comments);
+        return new PostResponseDto(post, comments);
     }
 
     private PostListResponseDto toPostListResponseDto(Post post) {
-        return new PostListResponseDto(
-                post.getId(),
-                post.getTitle(),
-                post.getAuthor().getId(),
-                post.getAuthor().getName(),
-                post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        return new PostListResponseDto(post);
     }
 }
