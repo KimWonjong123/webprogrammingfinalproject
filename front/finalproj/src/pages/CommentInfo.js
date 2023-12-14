@@ -8,7 +8,6 @@ function CommentInfo(props) {
 
     useEffect(() => {
         setComment(props.comment);
-        console.log(comment);
     }, [comment, props.comment]);
 
     return (

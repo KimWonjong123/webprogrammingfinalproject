@@ -42,7 +42,7 @@ function Home() {
     return (
         <>
             <Container>
-                {token ? <h1>Hello, {name}!</h1> : <h1>Hello, stranger!</h1>}
+                {token ? <h1>Hello, {name}!</h1> : <h1>Hello, Stranger!</h1>}
                 <Stack gap={4} className="Home">
                     {posts.map((post) => (
                         <Postinfo post={post} />

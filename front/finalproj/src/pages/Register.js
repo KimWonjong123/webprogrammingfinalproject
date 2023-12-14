@@ -80,7 +80,6 @@ function Register() {
     };
 
     const handleRegister = (data) => {
-        console.log(data)
         if (emailCheck !== true || emailCode === "") {
             return;
         }

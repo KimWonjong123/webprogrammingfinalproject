@@ -8,7 +8,6 @@ function Postinfo(props) {
 
     useEffect(() => {
         setPost(props.post);
-        console.log(post);
     }, [post, props.post]);
 
     return (

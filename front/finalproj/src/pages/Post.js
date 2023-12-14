@@ -78,12 +78,12 @@ function Post() {
         window.location.href = `/edit/${postId}`;
     }
 
-    const handleCommentDelete = (commentId) => {
-        if (userId !== String(post.authorId)) {
+    const handleCommentDelete = (comment) => {
+        if (userId !== String(comment.authorId)) {
             return;
         }
         axios
-            .delete(`http://localhost:8080/api/comment/${commentId}`, config)
+            .delete(`http://localhost:8080/api/comment/${comment.id}`, config)
             .then((res) => {
                 window.location.href = `/post/${postId}`;
             })
@@ -164,7 +164,7 @@ function Post() {
                                                 style={{ float: "right" }}
                                                 onClick={() => {
                                                     handleCommentDelete(
-                                                        comment.id
+                                                        comment
                                                     );
                                                 }}
                                             ></DeleteIcon>
